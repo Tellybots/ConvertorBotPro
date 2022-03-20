@@ -246,8 +246,8 @@ async def rename(event):
             return await cm.edit("An error occured while waiting for the response.")
     await media_rename(event, msg, new_name)  
     
-@Drone.on(events.callbackquery.CallbackQuery(data="hcomp"))
-async def _hcomp(event):
+@Drone.on(events.callbackquery.CallbackQuery(data="fcomp"))
+async def _fcomp(event):
     yy = await force_sub(event.sender_id)
     if yy is True:
         return await event.reply(forcesubtext)
