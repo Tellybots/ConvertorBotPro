@@ -246,59 +246,36 @@ async def rename(event):
             return await cm.edit("An error occured while waiting for the response.")
     await media_rename(event, msg, new_name)  
     
-@Drone.on(events.callbackquery.CallbackQuery(data="fcomp"))
-async def fcomp(event):
+@Drone.on(events.callbackquery.CallbackQuery(data="hcomp"))
+async def _hcomp(event):
     yy = await force_sub(event.sender_id)
     if yy is True:
         return await event.reply(forcesubtext)
-    if f'{event.sender_id}' in process1:
-        index = process1.index(f'{event.sender_id}')
-        last = timer[int(index)]
-        present = time.time()
-        return await event.answer(f"You have to wait {300-round(present-float(last))} seconds more to start a new process!", alert=True)
     button = await event.get_message()
-    msg = await button.get_reply_message()
+    msg = await button.get_reply_message()  
     if not os.path.isdir("encodemedia"):
         await event.delete()
         os.mkdir("encodemedia")
         cmd = '-vf scale=-1:360 -c:v libx265 -crf 22 -preset ultrafast -c:a copy'
-        await compress(event, msg, cmd)
+        await encode(event, msg, cmd)
         os.rmdir("encodemedia")
-        now = time.time()
-        timer.append(f'{now}')
-        process1.append(f'{event.sender_id}')
-        await event.client.send_message(event.chat_id, 'You can start a new process again after 5 minutes.')
-        await asyncio.sleep(300)
-        timer.pop(int(timer.index(f'{now}')))
-        process1.pop(int(process1.index(f'{event.sender_id}')))
     else:
         await event.edit(f"Another process in progress!\n\n**[LOG CHANNEL](https://t.me/{LOG_CHANNEL})**", link_preview=False)
                        
+
 @Drone.on(events.callbackquery.CallbackQuery(data="hcomp"))
-async def hcomp(event):
+async def _hcomp(event):
     yy = await force_sub(event.sender_id)
     if yy is True:
         return await event.reply(forcesubtext)
-    if f'{event.sender_id}' in process1:
-        index = process1.index(f'{event.sender_id}')
-        last = timer[int(index)]
-        present = time.time()
-        return await event.answer(f"You have to wait {300-round(present-float(last))} seconds more to start a new process!", alert=True)
     button = await event.get_message()
-    msg = await button.get_reply_message()
+    msg = await button.get_reply_message()  
     if not os.path.isdir("encodemedia"):
         await event.delete()
         os.mkdir("encodemedia")
         cmd = '-preset ultrafast -vcodec libx265 -crf 28 -acodec copy'
-        await compress(event, msg, cmd)
+        await encode(event, msg, cmd)
         os.rmdir("encodemedia")
-        now = time.time()
-        timer.append(f'{now}')
-        process1.append(f'{event.sender_id}')
-        await event.client.send_message(event.chat_id, 'You can start a new process again after 5 minutes.')
-        await asyncio.sleep(300)
-        timer.pop(int(timer.index(f'{now}')))
-        process1.pop(int(process1.index(f'{event.sender_id}')))
     else:
         await event.edit(f"Another process in progress!\n\n**[LOG CHANNEL](https://t.me/{LOG_CHANNEL})**", link_preview=False)
 
