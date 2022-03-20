@@ -253,12 +253,12 @@ async def _fcomp(event):
         return await event.reply(forcesubtext)
     button = await event.get_message()
     msg = await button.get_reply_message()  
-    if not os.path.isdir("encodemedia"):
+    if not os.path.isdir("compressmedia"):
         await event.delete()
-        os.mkdir("encodemedia")
+        os.mkdir("compressmedia")
         cmd = '-vf scale=-1:360 -c:v libx265 -crf 22 -preset ultrafast -c:a copy'
-        await encode(event, msg, cmd)
-        os.rmdir("encodemedia")
+        await compress(event, msg, cmd)
+        os.rmdir("compressmedia")
     else:
         await event.edit(f"Another process in progress!\n\n**[LOG CHANNEL](https://t.me/{LOG_CHANNEL})**", link_preview=False)
                        
@@ -270,12 +270,13 @@ async def _hcomp(event):
         return await event.reply(forcesubtext)
     button = await event.get_message()
     msg = await button.get_reply_message()  
-    if not os.path.isdir("encodemedia"):
+    if not os.path.isdir("compressmedia"):
         await event.delete()
-        os.mkdir("encodemedia")
-        cmd = '-preset ultrafast -vcodec libx265 -crf 28 -acodec copy'
-        await encode(event, msg, cmd)
-        os.rmdir("encodemedia")
+        os.mkdir("compressmedia")
+        #cmd = '-preset ultrafast -vcodec libx265 -crf 28 -acodec copy'
+        cmd = '-c:v libx265  -s 854x480 -crf 30 -map 0 -pix_fmt yuv420p -preset veryfast  -c:a libopus  -ab 40k'
+        await compress(event, msg, cmd)
+        os.rmdir("compressmedia")
     else:
         await event.edit(f"Another process in progress!\n\n**[LOG CHANNEL](https://t.me/{LOG_CHANNEL})**", link_preview=False)
 
