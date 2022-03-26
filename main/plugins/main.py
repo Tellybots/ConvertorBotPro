@@ -256,7 +256,7 @@ async def _fcomp(event):
     if not os.path.isdir("compressmedia"):
         await event.delete()
         os.mkdir("compressmedia")
-        cmd = '-vf scale=-1:360 -c:v libx265 -crf 22 -preset ultrafast -c:a copy'
+        cmd = '-c:v libx265  -s 640x480 -crf 22 -map 0 -pix_fmt yuv420p -preset ultrafast  -c:a libopus  -ab 40k'
         await compress(event, msg, cmd)
         os.rmdir("compressmedia")
     else:
