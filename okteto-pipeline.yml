@@ -1,0 +1,4 @@
+icon: https://9mmwallpapers.com/wp-content/uploads/Anime-Girl-iPhone-Wallpaper.jpg
+deploy:
+    - okteto stack deploy --build -f docker-compose.yml
+# vars: [{"name": "BRANCH", "value": "main"}]
